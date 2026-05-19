@@ -1,7 +1,4 @@
 import pytest
-from pydantic import ValidationError
-import pytest
-import uuid
 from src.app.entities.member import Member
 from src.app.errors.entity_errors import ParamNotValidated
 
