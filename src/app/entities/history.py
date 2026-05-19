@@ -1,6 +1,8 @@
 from typing import Tuple
+import uuid
 from src.app.errors.entity_errors import ParamNotValidated
 class History:
+    history_id: str
     type: str
     value: float
     current_balance: float
@@ -8,11 +10,17 @@ class History:
 
     def __init__(
         self,
+        history_id: str = None,
         type: str = None, 
         value: float = None, 
         current_balance: float = None,
         timestamp: float = None 
     ):
+        validation_history_id = self.validate_history_id(history_id)
+        if validation_history_id[0] is False:
+            raise ParamNotValidated("history_id", validation_history_id[1])
+        self.history_id = history_id
+        
         validation_type = self.validate_type(type)
         if validation_type[0] is False:
             raise ParamNotValidated("type", validation_type[1])
@@ -32,6 +40,16 @@ class History:
         if validation_timestamp[0] is False:
             raise ParamNotValidated("timestamp", validation_timestamp[1])
         self.timestamp = timestamp
+        
+    @staticmethod
+    def validade_history_id(history_id: str) -> Tuple[bool, str]:
+        if history_id is None:
+            return (False, "history_id is required")
+        if type(history_id) is not str:
+            return (False, "history_id must be a string")
+        if not uuid.UUID(history_id):
+            return (False, "history_id must be a valid uuid string")
+        return (True, "")
     
     @staticmethod
     def validate_type(type: str) -> Tuple[bool, str]:
