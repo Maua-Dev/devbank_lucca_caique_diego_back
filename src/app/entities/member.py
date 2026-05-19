@@ -22,15 +22,41 @@ class Member:
     @staticmethod
     def validate_name(name: str) -> Tuple[bool, str]:
         if name is None:
-            return (False, "Name is required")
+            return (False, "name is required")
         if type(name) is not str:
-            return (False, "Name must be a string")
+            return (False, "name must be a string")
+        if len(name) < 3:
+            return (False, "name must have at least 3 characters")
         return (True, "")
-    
+
     @staticmethod
-    def validate_agency(agency:str) ->Tuple[bool, str]:
+    def validate_agency(agency: str) -> Tuple[bool, str]:
         if agency is None:
-            return (False, "Agency is required")
+            return (False, "agency is required")
         if type(agency) is not str:
-            return (False, "Agency must be a string")
+            return (False, "agency must be a string")
+        if len(agency) != 4:
+            return (False, "agency must have 4 characters")
+        return (True, "")
+
+    @staticmethod
+    def validate_account(account: str) -> Tuple[bool, str]:
+        if account is None:
+            return (False, "account is required")
+        if type(account) is not str:
+            return (False, "account must be a string")
+        if len(account) != 7:
+            return (False, "account must have 7 characters")
+        if "-" not in account[-2]:
+            return (False, "account must have a - in second to last position")
+        return (True, "")
+
+    @staticmethod
+    def validade_current_balance(current_balance: float) -> Tuple[bool, str]:
+        if current_balance is None:
+            return (False, "current_balance is required")
+        if type(current_balance) is not float:
+            return (False, "current_balance must be a float")
+        if current_balance < 0:
+            return (False, "current_balance must be higher than 0")
         return (True, "")
