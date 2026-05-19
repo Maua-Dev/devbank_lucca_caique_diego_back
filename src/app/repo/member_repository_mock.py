@@ -1,5 +1,4 @@
-from ast import List
-from typing import Optional
+from typing import Optional, List
 from src.app.entities.member import Member
 from src.app.repo.member_repository_interface import IMemberRepository
 
@@ -14,25 +13,25 @@ class MemberRepositoryMock(IMemberRepository):
                 name="Caique",
                 agency="1305",
                 account="13050-7",
-                current_balance=2750,
+                current_balance=2750.0,
             ),
             Member(
                 member_id="b21af449-22c7-43db-b0e4-dbfbbe7fdbd7",
                 name="Lucca",
                 agency="0202",
                 account="02020-2",
-                current_balance=10.000,
+                current_balance=10000.0,
             ),
             Member(
                 member_id="b31af449-22c7-43db-b0e4-dbfbbe7fdbd7",
                 name="Diego",
                 agency="6769",
                 account="67695-1",
-                current_balance=505,
+                current_balance=505.0,
             ),
         ]
 
-    def get_all_member(self) -> List[Member]:
+    def get_all_members(self) -> List[Member]:
         return self.members
 
     def get_member(self, member_id: str) -> Optional[Member]:
