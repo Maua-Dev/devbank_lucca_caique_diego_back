@@ -4,7 +4,7 @@ from typing import List, Optional
 from src.app.entities.member import Member
 
 
-class IItemRepository(ABC):
+class IMemberRepository(ABC):
     @abstractmethod
     def get_all_members(self) -> List[Member]:
         
@@ -19,7 +19,7 @@ class IItemRepository(ABC):
     @abstractmethod
     def get_member(self, member_id : str) -> Optional[Member]:
         """
-        Retrieve a single item by member identifier.
+        Retrieve a single member by member identifier.
 
         Args:
             member_id (str): UUID string stored in the entity attribute ⁠ Member.member_id ⁠.

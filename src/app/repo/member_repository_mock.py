@@ -1,10 +1,10 @@
 from ast import List
 from typing import Optional
 from src.app.entities.member import Member
-from src.app.repo.member_repository_interface import IItemRepository
+from src.app.repo.member_repository_interface import IMemberRepository
 
 
-class ItemRepositoryMock(IItemRepository):
+class MemberRepositoryMock(IMemberRepository):
     members: List[Member]
 
     def __init__(self):
