@@ -60,3 +60,27 @@ class Member:
         if current_balance < 0:
             return (False, "current_balance must be higher than 0")
         return (True, "")
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "agency": self.agency,
+            "account": self.account,
+            "current_balance": self.current_balance,
+        }
+
+    def __eq__(self, other):
+        return (
+            self.name == other.name
+            and self.account == other.account
+            and self.agency == other.agency
+            and self.current_balance == other.current_balance
+        )
+
+    def __repr__(self):
+        return f"""
+            Member(name={self.name},
+            agency={self.agency},
+            account={self.account},
+            current_balance={self.current_balance})
+        """
