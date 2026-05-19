@@ -6,7 +6,7 @@ from src.app.entities.member import Member
 
 class IItemRepository(ABC):
     @abstractmethod
-    def get_all_users(self) -> List[Member]:
+    def get_all_members(self) -> List[Member]:
         
         """
         Return all stored users.
