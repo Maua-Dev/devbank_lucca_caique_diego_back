@@ -1,10 +1,38 @@
+from typing import Tuple
+from src.app.errors.entity_errors import ParamNotValidated
 class History:
     type: str
     value: float
     current_balance: float
     timestamp: float
 
+    def __init__(
+        self,
+        type: str = None, 
+        value: float = None, 
+        current_balance: float = None,
+        timestamp: float = None 
+    ):
+        validation_type = self.validate_type(type)
+        if validation_type[0] is False:
+            raise ParamNotValidated("type", validation_type[1])
+        self.type = type
 
+        validation_value = self.validate_value(value)
+        if validation_value[0] is False:
+            raise ParamNotValidated("value", validation_value[1])
+        self.value = value
+
+        validation_current_balance = self.validate_current_balance(current_balance)
+        if validation_current_balance[0] is False:
+            raise ParamNotValidated("current_value", validation_value[1])
+        self.current_balance = current_balance
+
+        validation_timestamp = self.validate_timestamp(timestamp)
+        if validation_timestamp[0] is False:
+            raise ParamNotValidated("timestamp", validation_timestamp[1])
+        self.timestamp = timestamp
+    
     @staticmethod
     def validate_type(type: str) -> Tuple[bool, str]:
         if type is None:
@@ -24,7 +52,7 @@ class History:
         return (True, "")
     
     @staticmethod
-    def current_balance(current_balance: float) -> Tuple[bool, str]:
+    def validate_current_balance(current_balance: float) -> Tuple[bool, str]:
         if current_balance is None:
             return (False, "Current balance is required")
         if type(current_balance) != float:
