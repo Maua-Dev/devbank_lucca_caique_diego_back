@@ -1,7 +1,10 @@
+import uuid
+from src.app.errors.entity_errors import ParamNotValidated
 from typing import Tuple
 
 
 class Member:
+    member_id: str
     name: str
     agency: str
     account: str
@@ -9,15 +12,47 @@ class Member:
 
     def __init__(
         self,
+        member_id: str = None,
         name: str = None,
         agency: str = None,
         account: str = None,
         current_balance: float = None,
     ):
+
+        validation_member_id = self.validade_member_id(member_id)
+        if validation_member_id[0] is False:
+            raise ParamNotValidated("member_id", validation_member_id[1])
+        self.member_id = member_id
+
+        validation_name = self.validate_name(name)
+        if validation_name[0] is False:
+            raise ParamNotValidated("name", validation_name[1])
         self.name = name
-        self.account = account
+
+        validation_agency = self.validate_agency(agency)
+        if validation_agency[0] is False:
+            raise ParamNotValidated("agency", validation_agency[1])
         self.agency = agency
+
+        validation_account = self.validate_account(account)
+        if validation_account[0] is False:
+            raise ParamNotValidated("account", validation_account[1])
+        self.account = account
+
+        validation_current_balance = self.validade_current_balance(current_balance)
+        if validation_current_balance[0] is False:
+            raise ParamNotValidated("current_balance", validation_current_balance[1])
         self.current_balance = current_balance
+
+    @staticmethod
+    def validade_member_id(member_id: str) -> Tuple[bool, str]:
+        if member_id is None:
+            return (False, "member_id is required")
+        if type(member_id) is not str:
+            return (False, "member_id must be a string")
+        if not uuid.UUID(member_id):
+            return (False, "member_id must be a valid uuid string")
+        return (True, "")
 
     @staticmethod
     def validate_name(name: str) -> Tuple[bool, str]:
