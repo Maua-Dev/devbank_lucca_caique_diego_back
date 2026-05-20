@@ -2,8 +2,9 @@ from typing import Tuple
 import uuid
 from src.app.errors.entity_errors import ParamNotValidated
 
-class History:
-    history_id: str
+
+class Transaction:
+    transaction_id: str
     type_value: str
     value: float
     current_balance: float
@@ -11,45 +12,45 @@ class History:
 
     def __init__(
         self,
-        history_id: str = None,
-        type_value: str = None, 
-        value: float = None, 
+        transaction_id: str = None,
+        type_value: str = None,
+        value: float = None,
         current_balance: float = None,
-        timestamp: float = None 
+        timestamp: float = None,
     ):
-        validation_history_id = History.validade_history_id(history_id)  
-        if validation_history_id[0] is False:
-            raise ParamNotValidated("history_id", validation_history_id[1])
-        self.history_id = history_id
-        
-        validation_type = History.validate_type_value(type_value=type_value)  
-        if validation_type[0] is False:
-            raise ParamNotValidated("type_value", validation_type[1])  
-        self.type_value = type_value  
+        validation_transaction_id = self.validade_transaction_id(transaction_id)
+        if validation_transaction_id[0] is False:
+            raise ParamNotValidated("transaction_id", validation_transaction_id[1])
+        self.transaction_id = transaction_id
 
-        validation_value = History.validade_value(value)  
+        validation_type = self.validate_type_value(type_value=type_value)
+        if validation_type[0] is False:
+            raise ParamNotValidated("type_value", validation_type[1])
+        self.type_value = type_value
+
+        validation_value = self.validade_value(value)
         if validation_value[0] is False:
             raise ParamNotValidated("value", validation_value[1])
         self.value = value
 
-        validation_current_balance = History.validade_current_balance(current_balance)  
+        validation_current_balance = self.validade_current_balance(current_balance)
         if validation_current_balance[0] is False:
             raise ParamNotValidated("current_value", validation_value[1])
         self.current_balance = current_balance
 
-        validation_timestamp = History.validade_timestamp(timestamp)  
+        validation_timestamp = self.validade_timestamp(timestamp)
         if validation_timestamp[0] is False:
             raise ParamNotValidated("timestamp", validation_timestamp[1])
         self.timestamp = timestamp
-            
+
     @staticmethod
-    def validade_history_id(history_id: str) -> Tuple[bool, str]:
-        if history_id is None:
-            return (False, "history_id is required")
-        if type(history_id) is not str:
-            return (False, "history_id must be a string")
-        if not uuid.UUID(history_id):
-            return (False, "history_id must be a valid uuid string")
+    def validade_transaction_id(transaction_id: str) -> Tuple[bool, str]:
+        if transaction_id is None:
+            return (False, "transaction_id is required")
+        if type(transaction_id) is not str:
+            return (False, "transaction_id must be a string")
+        if not uuid.UUID(transaction_id):
+            return (False, "transaction_id must be a valid uuid string")
         return (True, "")
 
     @staticmethod
@@ -94,6 +95,7 @@ class History:
 
     def to_dict(self):
         return {
+            "transaction_id": self.transaction_id,
             "type_value": self.type_value,
             "value": self.value,
             "current_balance": self.current_balance,
@@ -110,7 +112,7 @@ class History:
 
     def __repr__(self):
         return f"""
-            History(type_value={self.type_value},
+            Transaction(type_value={self.type_value},
             value={self.value},
             current_balance={self.current_balance})
             timestamp={self.timestamp},
