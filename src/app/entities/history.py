@@ -17,27 +17,27 @@ class History:
         current_balance: float = None,
         timestamp: float = None 
     ):
-        validation_history_id = History.validate_history_id(history_id)  # Corrigido
+        validation_history_id = self.validate_history_id(history_id)  # Corrigido
         if validation_history_id[0] is False:
             raise ParamNotValidated("history_id", validation_history_id[1])
         self.history_id = history_id
         
-        validation_type = History.validate_type(type_value=type_value)  # Corrigido
+        validation_type = self.validate_type(type_value=type_value)  # Corrigido
         if validation_type[0] is False:
             raise ParamNotValidated("type_value", validation_type[1])  
         self.type_value = type_value  
 
-        validation_value = History.validate_value(value)  # Corrigido
+        validation_value = self.validate_value(value)  # Corrigido
         if validation_value[0] is False:
             raise ParamNotValidated("value", validation_value[1])
         self.value = value
 
-        validation_current_balance = History.validate_current_balance(current_balance)  # Corrigido
+        validation_current_balance = self.validate_current_balance(current_balance)  # Corrigido
         if validation_current_balance[0] is False:
             raise ParamNotValidated("current_value", validation_value[1])
         self.current_balance = current_balance
 
-        validation_timestamp = History.validate_timestamp(timestamp)  # Corrigido
+        validation_timestamp = self.validate_timestamp(timestamp)  # Corrigido
         if validation_timestamp[0] is False:
             raise ParamNotValidated("timestamp", validation_timestamp[1])
         self.timestamp = timestamp
