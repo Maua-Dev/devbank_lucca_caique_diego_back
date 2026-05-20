@@ -10,14 +10,14 @@ class HistoryRepositoryMock(IHistoryRepository):
         self.historys = [
             History(
                 history_id="b11af449-22c7-43db-b0e4-dbfbbe7fdbd7",
-                type="Deposity",
+                type_value="Deposity",
                 value=550.0,
                 current_balance=1200.0,
                 timestamp=2.0,
             ),
             History(
                 history_id="b21af449-22c7-43db-b0e4-dbfbbe7fdbd7",
-                type="Withdraw",
+                type_value="Withdraw",
                 value=1000.0,
                 current_balance=1200.0,
                 timestamp=2.0,
@@ -50,7 +50,7 @@ class HistoryRepositoryMock(IHistoryRepository):
     def update_history(
         self,
         history_id: str,
-        type: str = None,
+        type_value: str = None,
         value: float = None,
         current_balance: float = None,
         timestamp: float = None,
@@ -58,8 +58,8 @@ class HistoryRepositoryMock(IHistoryRepository):
 
         for history in self.historys:
             if history.history_id == history_id:
-                if type is not None:
-                    history.type = type
+                if type_value is not None:
+                    history.type_value = type_value
                 if value is not None:
                     history.value = value
                 if timestamp is not None:
