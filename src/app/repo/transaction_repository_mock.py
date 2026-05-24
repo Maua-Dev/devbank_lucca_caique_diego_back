@@ -1,6 +1,7 @@
 from typing import Optional, List
 from src.app.entities.transaction import Transaction
 from src.app.repo.transaction_repository_interface import ITransactionRepository
+from src.app.enums.transaction_type_enum import TransactionTypeEnum
 
 
 class TransactionRepositoryMock(ITransactionRepository):
@@ -10,17 +11,17 @@ class TransactionRepositoryMock(ITransactionRepository):
         self.transactions = [
             Transaction(
                 transaction_id="b11af449-22c7-43db-b0e4-dbfbbe7fdbd7",
-                type_value="Deposity",
+                type_value=TransactionTypeEnum.DEPOSIT,
                 value=550.0,
                 current_balance=1200.0,
-                timestamp=2.0,
+                timestamp=2,
             ),
             Transaction(
                 transaction_id="b21af449-22c7-43db-b0e4-dbfbbe7fdbd7",
-                type_value="Withdraw",
+                type_value=TransactionTypeEnum.WITHDRAW,
                 value=1000.0,
                 current_balance=1200.0,
-                timestamp=2.0,
+                timestamp=2,
             ),
         ]
 
@@ -50,10 +51,10 @@ class TransactionRepositoryMock(ITransactionRepository):
     def update_transaction(
         self,
         transaction_id: str,
-        type_value: str = None,
+        type_value: TransactionTypeEnum = None,
         value: float = None,
         current_balance: float = None,
-        timestamp: float = None,
+        timestamp: int = None,
     ) -> Optional[Transaction]:
 
         for transaction in self.transactions:

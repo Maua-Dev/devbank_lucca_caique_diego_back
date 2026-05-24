@@ -9,7 +9,7 @@ class Transaction:
     type_value: TransactionTypeEnum
     value: float
     current_balance: float
-    timestamp: float
+    timestamp: int
 
     def __init__(
         self,
@@ -17,7 +17,7 @@ class Transaction:
         type_value: TransactionTypeEnum = None,
         value: float = None,
         current_balance: float = None,
-        timestamp: float = None,
+        timestamp: int = None,
     ):
         validation_transaction_id = self.validade_transaction_id(transaction_id)
         if validation_transaction_id[0] is False:
@@ -60,8 +60,6 @@ class Transaction:
             return (False, "type_value is required")
         if type(type_value) is not TransactionTypeEnum:
             return (False, "type_value must be a Deposit or Withdraw")
-        if len(type_value) < 3:
-            return (False, "type_value must have at least 3 characters")
         return (True, "")
 
     @staticmethod
@@ -70,7 +68,7 @@ class Transaction:
             return (False, "value is required")
         if type(value) is not float:
             return (False, "value must be a float")
-        if value < 0:
+        if value <= 0:
             return (False, "value must be higher than 0")
         return (True, "")
 
@@ -85,11 +83,11 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validade_timestamp(timestamp: float) -> Tuple[bool, str]:
+    def validade_timestamp(timestamp: int) -> Tuple[bool, str]:
         if timestamp is None:
             return (False, "timestamp is required")
-        if type(timestamp) is not float:
-            return (False, "timestamp must be a float")
+        if type(timestamp) is not int:
+            return (False, "timestamp must be a int")
         if timestamp < 0:
             return (False, "timestamp must be higher than 0")
         return (True, "")
