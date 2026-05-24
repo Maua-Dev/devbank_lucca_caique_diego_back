@@ -1,6 +1,7 @@
 import uuid
 from src.app.errors.entity_errors import ParamNotValidated
 from typing import Tuple
+import re
 
 
 class Member:
@@ -70,7 +71,7 @@ class Member:
             return (False, "agency is required")
         if type(agency) is not str:
             return (False, "agency must be a string")
-        if len(agency) != 4:
+        if not re.fullmatch(r"\d{4}", agency):
             return (False, "agency must have 4 characters")
         return (True, "")
 
@@ -82,7 +83,7 @@ class Member:
             return (False, "account must be a string")
         if len(account) != 7:
             return (False, "account must have 7 characters")
-        if "-" not in account[-2]:
+        if not re.fullmatch(r"^\d{5}-\d$", account):
             return (False, "account must have a - in second to last position")
         return (True, "")
 
