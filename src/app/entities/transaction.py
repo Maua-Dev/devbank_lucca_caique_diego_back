@@ -1,11 +1,12 @@
 from typing import Tuple
 import uuid
 from src.app.errors.entity_errors import ParamNotValidated
+from src.app.enums.transaction_type_enum import TransactionTypeEnum
 
 
 class Transaction:
     transaction_id: str
-    type_value: str
+    type_value: TransactionTypeEnum
     value: float
     current_balance: float
     timestamp: float
@@ -13,7 +14,7 @@ class Transaction:
     def __init__(
         self,
         transaction_id: str = None,
-        type_value: str = None,
+        type_value: TransactionTypeEnum = None,
         value: float = None,
         current_balance: float = None,
         timestamp: float = None,
@@ -23,7 +24,7 @@ class Transaction:
             raise ParamNotValidated("transaction_id", validation_transaction_id[1])
         self.transaction_id = transaction_id
 
-        validation_type = self.validate_type_value(type_value=type_value)
+        validation_type = self.validate_type_value(type_value)
         if validation_type[0] is False:
             raise ParamNotValidated("type_value", validation_type[1])
         self.type_value = type_value
@@ -54,11 +55,11 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validate_type_value(type_value: str) -> Tuple[bool, str]:
+    def validate_type_value(type_value: TransactionTypeEnum) -> Tuple[bool, str]:
         if type_value is None:
             return (False, "type_value is required")
-        if type(type_value) is not str:
-            return (False, "type_value must be a string")
+        if type(type_value) is not TransactionTypeEnum:
+            return (False, "type_value must be a Deposit or Withdraw")
         if len(type_value) < 3:
             return (False, "type_value must have at least 3 characters")
         return (True, "")
