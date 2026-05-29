@@ -99,6 +99,7 @@ class Member:
 
     def to_dict(self):
         return {
+            "member_id": self.member_id,
             "name": self.name,
             "agency": self.agency,
             "account": self.account,
