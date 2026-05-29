@@ -6,10 +6,20 @@ from src.app.entities.member import Member
 
 class IMemberRepository(ABC):
     @abstractmethod
+    def get_first_member(self) -> List[Member]:
+        """
+        Return the first member stored.
+
+        Returns:
+            Member: The first member currently persisted.
+        """
+        pass
+
+    @abstractmethod
     def get_all_members(self) -> List[Member]:
         
         """
-        Return all stored users.
+        Return all stored members.
 
         Returns:
             List[Member]: Collection of all member currently persisted.

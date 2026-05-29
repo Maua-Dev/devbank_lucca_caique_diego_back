@@ -5,6 +5,7 @@ import os
 from .errors.environment_errors import EnvironmentNotFound
 
 from .repo.item_repository_interface import IItemRepository
+from .repo.member_repository_interface import IMemberRepository
 
 
 class STAGE(Enum):
@@ -39,6 +40,14 @@ class Environments:
         if Environments.get_envs().stage == STAGE.TEST:
             from .repo.item_repository_mock import ItemRepositoryMock
             return ItemRepositoryMock
+        # use "elif" conditional to add other stages
+        else:
+            raise EnvironmentNotFound("STAGE")
+    @staticmethod
+    def get_member_repo() -> IMemberRepository:
+        if Environments.get_envs().stage == STAGE.TEST:
+            from .repo.member_repository_mock import MemberRepositoryMock
+            return MemberRepositoryMock
         # use "elif" conditional to add other stages
         else:
             raise EnvironmentNotFound("STAGE")

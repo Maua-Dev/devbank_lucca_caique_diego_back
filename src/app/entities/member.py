@@ -11,13 +11,6 @@ class Member:
     account: str
     current_balance: float
 
-    {
-        "name": "Diego Piol",
-        "agency": "0000",
-        "account": "00000-0",
-        "current_balance": 1000.0
-}
-
     def __init__(
         self,
         member_id: str = None,
