@@ -13,6 +13,7 @@ from .entities.item import Item
 app = FastAPI()
 
 repo = Environments.get_item_repo()()
+transaction_repo = Environments.get_transaction_repo()()
 
 # a baixo estão as rotas da api
 # elas interagem com os métodos de repositório. por exemplo a rota create item chama, não exclusivamente,
@@ -144,3 +145,9 @@ def update_item(request: dict):
 
 
 handler = Mangum(app, lifespan="off")
+
+
+@app.get("/transactions/get_history")
+def get_history():
+    transactions = transaction_repo.get_all_transactions()
+    return {"all_transactions": [transaction.to_dict() for transaction in transactions]}

@@ -3,6 +3,9 @@ import pytest
 import src.app.main as main_module
 from src.app.main import get_all_items, get_item, create_item, delete_item, update_item
 from src.app.repo.item_repository_mock import ItemRepositoryMock
+from fastapi.testclient import TestClient
+from src.app.main import app
+from src.app.repo.transaction_repository_mock import TransactionRepositoryMock
 
 
 class Test_Main:
@@ -290,3 +293,27 @@ class Test_Main:
             update_item(request=body)
         assert err.value.status_code == 400
             
+client = TestClient(app)
+
+class Test_GetHistory:
+
+    def test_get_history(self):
+        repo = TransactionRepositoryMock()
+
+        response = client.get("/transactions/get_history")
+
+        assert response.status_code == 200
+
+        transactions_response = response.json()["all_transactions"]
+
+        assert len(transactions_response) == len(repo.transactions)
+
+        for transaction_response, transaction_mock in zip(
+            transactions_response,
+            repo.transactions
+        ):
+            assert transaction_response["transaction_id"] == transaction_mock.transaction_id
+            assert transaction_response["type_value"] == transaction_mock.type_value.value
+            assert transaction_response["value"] == transaction_mock.value
+            assert transaction_response["current_balance"] == transaction_mock.current_balance
+            assert transaction_response["timestamp"] == transaction_mock.timestamp
