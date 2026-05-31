@@ -13,7 +13,7 @@ class MemberRepositoryMock(IMemberRepository):
                 name="Caique",
                 agency="1305",
                 account="13050-7",
-                current_balance=2750.0,
+                current_balance=1200.0,
             ),
             Member(
                 member_id="b21af449-22c7-43db-b0e4-dbfbbe7fdbd7",

@@ -2,6 +2,9 @@
 from enum import Enum
 import os
 
+from src.app.repo.member_repository_interface import IMemberRepository
+from src.app.repo.transaction_repository_interface import ITransactionRepository
+
 from .errors.environment_errors import EnvironmentNotFound
 
 from .repo.item_repository_interface import IItemRepository
@@ -40,6 +43,20 @@ class Environments:
             from .repo.item_repository_mock import ItemRepositoryMock
             return ItemRepositoryMock
         # use "elif" conditional to add other stages
+        else:
+            raise EnvironmentNotFound("STAGE")
+        
+    @staticmethod
+    def get_member_repo() -> IMemberRepository:
+        if Environments.get_envs().stage == STAGE.TEST:
+            from .repo.member_repository_mock import MemberRepositoryMock
+            return MemberRepositoryMock()
+        
+    @staticmethod
+    def get_transaction_repo() -> ITransactionRepository:
+        if Environments.get_envs().stage == STAGE.TEST:
+            from .repo.transaction_repository_mock import TransactionRepositoryMock
+            return TransactionRepositoryMock
         else:
             raise EnvironmentNotFound("STAGE")
         
