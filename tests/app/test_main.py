@@ -1,6 +1,9 @@
 from fastapi import HTTPException
 import pytest
 from src.app.main import deposit_transaction
+from fastapi.testclient import TestClient
+from src.app.main import app
+from src.app.repo.transaction_repository_mock import TransactionRepositoryMock
 
 class Test_Main:    
     def test_deposit_transaction(self):
@@ -75,3 +78,28 @@ class Test_Main:
 
         with pytest.raises(HTTPException) as err:
             deposit_transaction(request=body)
+
+client = TestClient(app)
+
+class Test_GetHistory:
+
+    def test_get_history(self):
+        repo = TransactionRepositoryMock()
+
+        response = client.get("/transactions/get_history")
+
+        assert response.status_code == 200
+
+        transactions_response = response.json()["all_transactions"]
+
+        assert len(transactions_response) == len(repo.transactions)
+
+        for transaction_response, transaction_mock in zip(
+            transactions_response,
+            repo.transactions
+        ):
+            assert transaction_response["transaction_id"] == transaction_mock.transaction_id
+            assert transaction_response["type_value"] == transaction_mock.type_value.value
+            assert transaction_response["value"] == transaction_mock.value
+            assert transaction_response["current_balance"] == transaction_mock.current_balance
+            assert transaction_response["timestamp"] == transaction_mock.timestamp

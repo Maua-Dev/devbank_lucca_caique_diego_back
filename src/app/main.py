@@ -10,6 +10,8 @@ from uuid import uuid4
 
 app = FastAPI()
 
+repo = Environments.get_item_repo()()
+transaction_repo = Environments.get_transaction_repo()()
 member_repo= Environments.get_member_repo()
 transaction_repo= Environments.get_transaction_repo()()
 
@@ -75,3 +77,8 @@ def deposit_transaction(request: dict):
         "current balance": current_balance,
         "timestamp": deposit_transaction.timestamp,
     }
+
+@app.get("/transactions/get_history")
+def get_history():
+    transactions = transaction_repo.get_all_transactions()
+    return {"all_transactions": [transaction.to_dict() for transaction in transactions]}
