@@ -47,14 +47,6 @@ class Environments:
             raise EnvironmentNotFound("STAGE")
 
     @staticmethod
-    def get_transaction_repo():
-        if Environments.get_envs().stage == STAGE.TEST:
-            from .repo.transaction_repository_mock import TransactionRepositoryMock
-            return TransactionRepositoryMock
-        else:
-            raise EnvironmentNotFound("STAGE")
-        
-    @staticmethod
     def get_member_repo() -> IMemberRepository:
         if Environments.get_envs().stage == STAGE.TEST:
             from .repo.member_repository_mock import MemberRepositoryMock
