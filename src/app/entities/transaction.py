@@ -10,7 +10,36 @@ class Transaction:
     value: float
     current_balance: float
     timestamp: int
-
+     
+    {
+  "all_transactions": [
+    {
+      "type": "deposit",
+      "value": 100.0,
+      "current_balance": "1000.0",
+      "timestamp": 1690482853890
+    },
+    {
+      "type": "withdraw",
+      "timestamp": 1691707985704.6152,
+      "current_balance": 700.0,
+      "value": 300
+    },
+    {
+      "type": "deposit",
+      "current_balance": 710.0,
+      "timestamp": 1691707990727.101,
+      "value": 10
+    },
+    {
+      "type": "withdraw",
+      "timestamp": 1691707994750.5022,
+      "current_balance": 680.0,
+      "value": 30
+    }
+  ]
+}
+    
     def __init__(
         self,
         transaction_id: str = None,
@@ -19,7 +48,7 @@ class Transaction:
         current_balance: float = None,
         timestamp: int = None,
     ):
-        validation_transaction_id = self.validade_transaction_id(transaction_id)
+        validation_transaction_id = self.validate_transaction_id(transaction_id)
         if validation_transaction_id[0] is False:
             raise ParamNotValidated("transaction_id", validation_transaction_id[1])
         self.transaction_id = transaction_id
@@ -29,23 +58,23 @@ class Transaction:
             raise ParamNotValidated("type_value", validation_type[1])
         self.type_value = type_value
 
-        validation_value = self.validade_value(value)
+        validation_value = self.validate_value(value)
         if validation_value[0] is False:
             raise ParamNotValidated("value", validation_value[1])
         self.value = value
 
-        validation_current_balance = self.validade_current_balance(current_balance)
+        validation_current_balance = self.validate_current_balance(current_balance)
         if validation_current_balance[0] is False:
             raise ParamNotValidated("current_value", validation_value[1])
         self.current_balance = current_balance
 
-        validation_timestamp = self.validade_timestamp(timestamp)
+        validation_timestamp = self.validate_timestamp(timestamp)
         if validation_timestamp[0] is False:
             raise ParamNotValidated("timestamp", validation_timestamp[1])
         self.timestamp = timestamp
 
     @staticmethod
-    def validade_transaction_id(transaction_id: str) -> Tuple[bool, str]:
+    def validate_transaction_id(transaction_id: str) -> Tuple[bool, str]:
         if transaction_id is None:
             return (False, "transaction_id is required")
         if type(transaction_id) is not str:
@@ -63,7 +92,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validade_value(value: float) -> Tuple[bool, str]:
+    def validate_value(value: float) -> Tuple[bool, str]:
         if value is None:
             return (False, "value is required")
         if type(value) is not float:
@@ -73,7 +102,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validade_current_balance(current_balance: float) -> Tuple[bool, str]:
+    def validate_current_balance(current_balance: float) -> Tuple[bool, str]:
         if current_balance is None:
             return (False, "current_balance is required")
         if type(current_balance) is not float:
@@ -83,13 +112,21 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validade_timestamp(timestamp: int) -> Tuple[bool, str]:
+    def validate_timestamp(timestamp: int) -> Tuple[bool, str]:
         if timestamp is None:
             return (False, "timestamp is required")
         if type(timestamp) is not int:
             return (False, "timestamp must be a int")
         if timestamp < 0:
             return (False, "timestamp must be higher than 0")
+        return (True, "")
+
+    @staticmethod
+    def validate_request(request: dict) -> Tuple[bool, str]:
+        if request is None:
+            return (False, "Request is required")
+        if type(request) is not dict:
+            return (False, "Request must be a dict")
         return (True, "")
 
     def to_dict(self):
