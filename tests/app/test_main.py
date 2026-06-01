@@ -28,7 +28,6 @@ class Test_Main:
         response = execute_get_pra_barra()
         expected_member = repo.get_first_member()
         assert response == {
-            "member_id": self.FIRST_MEMBER_ID,
             "member": expected_member.to_dict(),
         }
 

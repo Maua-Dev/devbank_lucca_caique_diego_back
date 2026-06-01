@@ -5,40 +5,11 @@ from src.app.enums.transaction_type_enum import TransactionTypeEnum
 
 
 class Transaction:
-    transaction_id: str
-    type_value: TransactionTypeEnum
-    value: float
-    current_balance: float
-    timestamp: int
-     
-    {
-  "all_transactions": [
-    {
-      "type": "deposit",
-      "value": 100.0,
-      "current_balance": "1000.0",
-      "timestamp": 1690482853890
-    },
-    {
-      "type": "withdraw",
-      "timestamp": 1691707985704.6152,
-      "current_balance": 700.0,
-      "value": 300
-    },
-    {
-      "type": "deposit",
-      "current_balance": 710.0,
-      "timestamp": 1691707990727.101,
-      "value": 10
-    },
-    {
-      "type": "withdraw",
-      "timestamp": 1691707994750.5022,
-      "current_balance": 680.0,
-      "value": 30
-    }
-  ]
-}
+    transaction_id: str = None
+    type_value: TransactionTypeEnum = None
+    value: float = None
+    current_balance: float = None
+    timestamp: int = None
     
     def __init__(
         self,
@@ -74,7 +45,7 @@ class Transaction:
         self.timestamp = timestamp
 
     @staticmethod
-    def validate_transaction_id(transaction_id: str) -> Tuple[bool, str]:
+    def validate_transaction_id(transaction_id: str | None) -> Tuple[bool, str]:
         if transaction_id is None:
             return (False, "transaction_id is required")
         if type(transaction_id) is not str:
@@ -84,7 +55,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validate_type_value(type_value: TransactionTypeEnum) -> Tuple[bool, str]:
+    def validate_type_value(type_value: TransactionTypeEnum | None) -> Tuple[bool, str]:
         if type_value is None:
             return (False, "type_value is required")
         if type(type_value) is not TransactionTypeEnum:
@@ -92,7 +63,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validate_value(value: float) -> Tuple[bool, str]:
+    def validate_value(value: float | None) -> Tuple[bool, str]:
         if value is None:
             return (False, "value is required")
         if type(value) is not float:
@@ -102,7 +73,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validate_current_balance(current_balance: float) -> Tuple[bool, str]:
+    def validate_current_balance(current_balance: float | None) -> Tuple[bool, str]:
         if current_balance is None:
             return (False, "current_balance is required")
         if type(current_balance) is not float:
@@ -112,7 +83,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validate_timestamp(timestamp: int) -> Tuple[bool, str]:
+    def validate_timestamp(timestamp: int | None) -> Tuple[bool, str]:
         if timestamp is None:
             return (False, "timestamp is required")
         if type(timestamp) is not int:
@@ -122,7 +93,7 @@ class Transaction:
         return (True, "")
 
     @staticmethod
-    def validate_request(request: dict) -> Tuple[bool, str]:
+    def validate_request(request: dict | None) -> Tuple[bool, str]:
         if request is None:
             return (False, "Request is required")
         if type(request) is not dict:
