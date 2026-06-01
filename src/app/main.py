@@ -1,18 +1,22 @@
 from datetime import datetime
 from uuid import uuid4
-
 from fastapi import FastAPI, HTTPException
 from mangum import Mangum
-
 from src.app.entities.transaction import Transaction
 from src.app.enums.transaction_type_enum import TransactionTypeEnum
 from src.app.environments import Environments
 
 app = FastAPI()
 
-repo = Environments.get_item_repo()()
-member_repo = Environments.get_member_repo()
+member_repo = Environments.get_member_repo()()
 transaction_repo = Environments.get_transaction_repo()()
+
+@app.get("/")
+def execute_get_pra_barra():
+    member = member_repo.get_first_member()
+    return {
+        "member_id": member.member_id,
+        "member": member.to_dict(),
 
 
 @app.get("/transactions/get_history")

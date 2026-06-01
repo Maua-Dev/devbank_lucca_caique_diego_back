@@ -7,6 +7,13 @@ class Test_MemberRepositoryMock:
     NOT_FOUND_MEMBER_ID = "00000000-0000-0000-0000-000000000000"
     CREATED_MEMBER_ID = "88f0920c-0de0-4e0a-bb46-abdb3705579d"
 
+    def test_get_first_member(self):
+        repo = MemberRepositoryMock()
+        member = repo.get_first_member()
+        assert member is not None
+        assert member.member_id == self.FIRST_MEMBER_ID
+        assert member == repo.members[0]
+
     def test_get_all_members(self):
         repo = MemberRepositoryMock()
         members = repo.get_all_members()

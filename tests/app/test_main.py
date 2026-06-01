@@ -1,13 +1,25 @@
+import src.app.main as main_module
+from src.app.main import app, execute_get_pra_barra, deposit_transaction, withdraw_transaction, transaction_repo
+from src.app.repo.member_repository_mock import MemberRepositoryMock
+from src.app.repo.transaction_repository_mock import TransactionRepositoryMock
 from fastapi import HTTPException
 import pytest
-from src.app.main import deposit_transaction, withdraw_transaction
 from fastapi.testclient import TestClient
-from src.app.main import app
-from src.app.repo.transaction_repository_mock import TransactionRepositoryMock
 
-from src.app.main import transaction_repo
+class Test_Main:
+    FIRST_MEMBER_ID = "b11af449-22c7-43db-b0e4-dbfbbe7fdbd7"
 
+    def setup_method(self):
+        main_module.member_repo = MemberRepositoryMock()
 
+    def test_execute_get_pra_barra(self):
+        repo = MemberRepositoryMock()
+        response = execute_get_pra_barra()
+        expected_member = repo.get_first_member()
+        assert response == {
+            "member_id": self.FIRST_MEMBER_ID,
+            "member": expected_member.to_dict(),
+        }
 
 @pytest.fixture(autouse=True)
 def reset_transaction_repo():
@@ -17,7 +29,18 @@ def reset_transaction_repo():
     transaction_repo.transactions = fresh_repo.transactions.copy()
 
 
-class Test_Main:    
+class Test_Main:
+    def setup_method(self):
+        main_module.member_repo = MemberRepositoryMock()
+
+    def test_execute_get_pra_barra(self):
+        repo = MemberRepositoryMock()
+        response = execute_get_pra_barra()
+        expected_member = repo.get_first_member()
+        assert response == {
+            "member_id": self.FIRST_MEMBER_ID,
+            "member": expected_member.to_dict(),
+        }
     def test_deposit_transaction(self):
         body = {
             '2': 0,

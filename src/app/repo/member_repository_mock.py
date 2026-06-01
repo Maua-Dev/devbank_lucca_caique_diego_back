@@ -31,6 +31,9 @@ class MemberRepositoryMock(IMemberRepository):
             ),
         ]
 
+    def get_first_member(self) -> Member:
+        return self.members[0]
+
     def get_all_members(self) -> List[Member]:
         return self.members
 
