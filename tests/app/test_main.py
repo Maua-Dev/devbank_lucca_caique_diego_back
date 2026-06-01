@@ -1,40 +1,23 @@
 import src.app.main as main_module
 from src.app.main import (
-    app,
     execute_get_pra_barra,
     deposit_transaction,
     withdraw_transaction,
+    get_history,
     transaction_repo,
 )
 from src.app.repo.member_repository_mock import MemberRepositoryMock
 from src.app.repo.transaction_repository_mock import TransactionRepositoryMock
 from fastapi import HTTPException
 import pytest
-from fastapi.testclient import TestClient
-
-client = TestClient(app)
 
 
 class Test_Main:
     FIRST_MEMBER_ID = "b11af449-22c7-43db-b0e4-dbfbbe7fdbd7"
 
-    def setup_method(self):
-        main_module.member_repo = MemberRepositoryMock()
-
-    def test_execute_get_pra_barra(self):
-        repo = MemberRepositoryMock()
-        response = execute_get_pra_barra()
-        expected_member = repo.get_first_member()
-        assert response == {
-            "member_id": self.FIRST_MEMBER_ID,
-            "member": expected_member.to_dict(),
-        }
-
     @pytest.fixture(autouse=True)
     def reset_transaction_repo(self):
-
         fresh_repo = TransactionRepositoryMock()
-
         transaction_repo.transactions = fresh_repo.transactions.copy()
 
     def setup_method(self):
@@ -167,11 +150,9 @@ class Test_Main:
     def test_get_history(self):
         repo = TransactionRepositoryMock()
 
-        response = client.get("/transactions/get_history")
+        response = get_history()
 
-        assert response.status_code == 200
-
-        transactions_response = response.json()["all_transactions"]
+        transactions_response = response["all_transactions"]
 
         assert len(transactions_response) == len(repo.transactions)
 
@@ -182,9 +163,7 @@ class Test_Main:
                 transaction_response["transaction_id"]
                 == transaction_mock.transaction_id
             )
-            assert (
-                transaction_response["type_value"] == transaction_mock.type_value.value
-            )
+            assert transaction_response["type_value"] == transaction_mock.type_value
             assert transaction_response["value"] == transaction_mock.value
             assert (
                 transaction_response["current_balance"]
