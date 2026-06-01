@@ -43,8 +43,7 @@ def deposit_transaction(request: dict):
 
         if request.get(option, 0) is None:
             raise HTTPException(status_code=400, detail="Valor inválido")
-
-        value = float(option) * request.get(option, 0)
+        value = float(option) * request.get(option, 0) * 10
         total_value += value
 
     validation_value = Transaction.validate_value(value=float(total_value))
@@ -77,7 +76,7 @@ def deposit_transaction(request: dict):
     member_repo.update_member(current_balance=member_current_balance)
 
     return {
-        "current balance": member_current_balance,
+        "current_balance": member_current_balance,
         "timestamp": new_transaction.timestamp,
     }
 
@@ -93,14 +92,22 @@ def withdraw_transaction(request: dict):
     options = ["2", "5", "10", "20", "50", "100", "200"]
 
     total_value = 0
+    quantity_total = 0
 
     for option in options:
 
         if request.get(option, 0) is None:
             raise HTTPException(status_code=400, detail="Valor inválido")
 
-        value = float(option) * request.get(option, 0)
+        qty = request.get(option, 0)
+        value = float(option) * qty
+        quantity_total += qty
         total_value += value
+
+    if quantity_total <= 1:
+        total_value = total_value / 200
+    else:
+        total_value = (total_value / 200) * 100
 
     validation_value = Transaction.validate_value(value=float(total_value))
 

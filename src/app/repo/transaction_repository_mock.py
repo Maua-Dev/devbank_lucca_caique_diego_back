@@ -1,71 +1,78 @@
 from typing import Optional, List
-from src.app.entities.transaction import Transaction
-from src.app.repo.transaction_repository_interface import ITransactionRepository
-from src.app.enums.transaction_type_enum import TransactionTypeEnum
+from src.app.entities.member import Member
+from src.app.repo.member_repository_interface import IMemberRepository
 
 
-class TransactionRepositoryMock(ITransactionRepository):
-    transactions: List[Transaction]
+class MemberRepositoryMock(IMemberRepository):
+    members: List[Member]
 
     def __init__(self):
-        self.transactions = [
-            Transaction(
-                transaction_id="b11af449-22c7-43db-b0e4-dbfbbe7fdbd7",
-                type_value=TransactionTypeEnum.DEPOSIT,
-                value=550.0,
-                current_balance=1200.0,
-                timestamp=2,
+        self.members = [
+            Member(
+                name="Vitor Soller",
+                agency="0000",
+                account="00000-0",
+                current_balance=1000.0,
             ),
-            Transaction(
-                transaction_id="b21af449-22c7-43db-b0e4-dbfbbe7fdbd7",
-                type_value=TransactionTypeEnum.WITHDRAW,
-                value=1000.0,
-                current_balance=1200.0,
-                timestamp=2,
+            Member(
+                name="Lucca",
+                agency="0202",
+                account="02020-2",
+                current_balance=10000.0,
+            ),
+            Member(
+                name="Diego",
+                agency="6769",
+                account="67695-1",
+                current_balance=505.0,
             ),
         ]
 
-    def get_all_transactions(self) -> List[Transaction]:
-        return self.transactions
+    def get_first_member(self) -> Member:
+        return self.members[0]
 
-    def get_transaction(self, transaction_id: str) -> Optional[Transaction]:
-        for transaction in self.transactions:
-            if transaction.transaction_id == transaction_id:
-                return transaction
+    def get_all_members(self) -> List[Member]:
+        return self.members
+
+    def get_member(self, name: str) -> Optional[Member]:
+        for member in self.members:
+            if member.name == name:
+                return member
 
         return None
 
-    def create_transaction(self, transaction: Transaction) -> Transaction:
+    def create_member(self, member: Member) -> Member:
 
-        self.transactions.append(transaction)
+        self.members.append(member)
 
-        return transaction
+        return member
 
-    def delete_transaction(self, transaction_id: str) -> Transaction:
-        for transaction in self.transactions:
-            if transaction.transaction_id == transaction_id:
-                self.transactions.remove(transaction)
-                return transaction
+    def delete_member(self, name: str) -> Member:
+        for member in self.members:
+            if member.name == name:
+                self.members.remove(member)
+                return member
         return None
 
-    def update_transaction(
+    def update_member(
         self,
-        transaction_id: str,
-        type_value: TransactionTypeEnum = None,
-        value: float = None,
-        current_balance: float = None,
-        timestamp: int = None,
-    ) -> Optional[Transaction]:
+        name: str | None = None,
+        agency: str | None = None,
+        account: str | None = None,
+        current_balance: float | None = None,
+    ) -> Optional[Member]:
+        if not self.members:
+            return None
 
-        for transaction in self.transactions:
-            if transaction.transaction_id == transaction_id:
-                if type_value is not None:
-                    transaction.type_value = type_value
-                if value is not None:
-                    transaction.value = value
-                if timestamp is not None:
-                    transaction.timestamp = timestamp
-                if current_balance is not None:
-                    transaction.current_balance = current_balance
-                return transaction
-        return None
+        member = self.members[0]
+
+        if name is not None:
+            member.name = name
+        if agency is not None:
+            member.agency = agency
+        if account is not None:
+            member.account = account
+        if current_balance is not None:
+            member.current_balance = current_balance
+
+        return member

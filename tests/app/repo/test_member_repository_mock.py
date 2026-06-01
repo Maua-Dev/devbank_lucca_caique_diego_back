@@ -8,7 +8,10 @@ class Test_MemberRepositoryMock:
         repo = MemberRepositoryMock()
         member = repo.get_first_member()
         assert member is not None
-        assert member.name == "Caique"
+        assert member.name == "Vitor Soller"
+        assert member.agency == "0000"
+        assert member.account == "00000-0"
+        assert member.current_balance == 1000.0
         assert member == repo.members[0]
 
     def test_get_all_members(self):
@@ -24,9 +27,12 @@ class Test_MemberRepositoryMock:
 
     def test_get_member(self):
         repo = MemberRepositoryMock()
-        member = repo.get_member(name="Caique")
+        member = repo.get_member(name="Vitor Soller")
         assert member is not None
-        assert member.name == "Caique"
+        assert member.name == "Vitor Soller"
+        assert member.agency == "0000"
+        assert member.account == "00000-0"
+        assert member.current_balance == 1000.0
 
     def test_get_member_not_found(self):
         repo = MemberRepositoryMock()
@@ -37,10 +43,10 @@ class Test_MemberRepositoryMock:
         repo = MemberRepositoryMock()
         len_before = len(repo.members)
         member = Member(
-            name="Roberto",
-            agency="1234",
-            account="12345-6",
-            current_balance=45000.0,
+            name="Vitor Soller",
+            agency="0000",
+            account="00000-0",
+            current_balance=1000.0,
         )
         repo.create_member(member=member)
         len_after = len(repo.members)
@@ -49,14 +55,14 @@ class Test_MemberRepositoryMock:
 
     def test_delete_member(self):
         repo = MemberRepositoryMock()
-        member_expected_to_be_deleted = repo.get_member(name="Caique")
+        member_expected_to_be_deleted = repo.get_member(name="Vitor Soller")
         len_before = len(repo.members)
 
-        member = repo.delete_member(name="Caique")
+        member = repo.delete_member(name="Vitor Soller")
         len_after = len(repo.members)
         assert len_after == len_before - 1
         assert member == member_expected_to_be_deleted
-        assert repo.get_member(name="Caique") is None
+        assert repo.get_member(name="Vitor Soller") is None
 
     def test_delete_member_not_found(self):
         repo = MemberRepositoryMock()
@@ -66,37 +72,37 @@ class Test_MemberRepositoryMock:
     def test_update_member(self):
         repo = MemberRepositoryMock()
         member_updated = repo.update_member(
-            name="Roberto",
-            agency="1234",
-            account="12345-6",
-            current_balance=45000,
+            name="Vitor Soller",
+            agency="0000",
+            account="00000-0",
+            current_balance=1000.0,
         )
 
         assert member_updated is not None
-        assert member_updated.name == "Roberto"
-        assert member_updated.agency == "1234"
-        assert member_updated.account == "12345-6"
-        assert member_updated.current_balance == 45000
+        assert member_updated.name == "Vitor Soller"
+        assert member_updated.agency == "0000"
+        assert member_updated.account == "00000-0"
+        assert member_updated.current_balance == 1000.0
 
     def test_update_member_name(self):
         repo = MemberRepositoryMock()
-        name = "Roberto"
-        member_updated = repo.update_member(name=name, agency="1234")
+        name = "Vitor Soller"
+        member_updated = repo.update_member(name=name, agency="0000")
 
         assert member_updated.name == name
-        assert member_updated.agency == "1234"
+        assert member_updated.agency == "0000"
         assert repo.get_member(name=name).name == name
-        assert repo.get_member(name=name).agency == "1234"
+        assert repo.get_member(name=name).agency == "0000"
 
     def test_update_member_agency(self):
         repo = MemberRepositoryMock()
-        agency="1234"
-        name = "Roberto"
-        member_updated = repo.update_member(name=name, agency=agency, account="12345-6", current_balance=45000)
+        agency="0000"
+        name = "Vitor Soller"
+        member_updated = repo.update_member(name=name, agency=agency, account="00000-0", current_balance=1000.0)
 
         assert member_updated.agency == agency
         assert repo.get_member(name=name).agency == agency
-        assert member_updated.account == "12345-6"
-        assert member_updated.current_balance == 45000
-        assert repo.get_member(name=name).account == "12345-6"
-        assert repo.get_member(name=name).current_balance == 45000
+        assert member_updated.account == "00000-0"
+        assert member_updated.current_balance == 1000.0
+        assert repo.get_member(name=name).account == "00000-0"
+        assert repo.get_member(name=name).current_balance == 1000.0

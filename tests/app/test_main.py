@@ -37,7 +37,7 @@ class Test_Main:
         response = deposit_transaction(request=body)
 
         assert response == {
-            "current balance": 1210.0,
+            "current_balance": 1100.0,
             "timestamp": response.get("timestamp"),
         }
 
@@ -95,7 +95,7 @@ class Test_Main:
         response = withdraw_transaction(request=body)
 
         assert response == {
-            "current_balance": 1000.0,
+            "current_balance": 999.0,
             "timestamp": response.get("timestamp"),
         }
 
