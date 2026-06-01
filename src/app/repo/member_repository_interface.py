@@ -32,10 +32,10 @@ class IMemberRepository(ABC):
         Retrieve a single member by member identifier.
 
         Args:
-            member_id (str): UUID string stored in the entity attribute ⁠ Member.member_id ⁠.
+            member_id (str): Name string stored in the entity attribute `Member.name`.
 
         Returns:
-            Optional[Member]: The matching member when found, otherwise ⁠ None ⁠.
+            Optional[Member]: The matching member when found, otherwise None.
         """
         pass
 
@@ -68,21 +68,19 @@ class IMemberRepository(ABC):
     @abstractmethod
     def update_member(
         self,
-        member_id: str = None,
-        name: str = None,
-        agency: str = None,
-        account: str = None,
-        current_balance: float = None,
+        name: str | None = None,
+        agency: str | None = None,
+        account: str | None = None,
+        current_balance: float | None = None,
     ) -> Optional[Member]:
         """
         Update mutable fields of an existing member.
 
         Args:
-            member_id (str): UUID string of the member to update.
-            name (str): New name.
-            agency (str): New agency.
-            account (str): New account.
-            current_balance (float): New current balance.
+            name (str): Name string stored in the entity attribute `Member.name`.
+            agency (str): Agency string stored in the entity attribute `Member.agency`.
+            account (str): Account string stored in the entity attribute `Member.account`.
+            current_balance (float): Current balance float stored in the entity attribute `Member.current_balance`.
 
         Returns:
             Optional[Member]: Updated member when found, otherwise ⁠ None ⁠.

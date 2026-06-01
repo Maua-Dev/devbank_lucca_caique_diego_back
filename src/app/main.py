@@ -16,7 +16,6 @@ transaction_repo = Environments.get_transaction_repo()()
 def execute_get_pra_barra():
     member = member_repo.get_first_member()
     return {
-        "member_id": member.member_id,
         "member": member.to_dict(),
     }
 
@@ -53,7 +52,7 @@ def deposit_transaction(request: dict):
     if not validation_value[0]:
         raise HTTPException(status_code=400, detail=validation_value[1])
 
-    member = member_repo.get_member("b11af449-22c7-43db-b0e4-dbfbbe7fdbd7")
+    member = member_repo.get_first_member()
 
     if member is None:
         raise HTTPException(status_code=404, detail="Member not found")
@@ -75,9 +74,7 @@ def deposit_transaction(request: dict):
 
     transaction_repo.create_transaction(transaction=new_transaction)
 
-    member_repo.update_member(
-        member_id=member.member_id, current_balance=member_current_balance
-    )
+    member_repo.update_member(current_balance=member_current_balance)
 
     return {
         "current balance": member_current_balance,
@@ -110,7 +107,7 @@ def withdraw_transaction(request: dict):
     if not validation_value[0]:
         raise HTTPException(status_code=400, detail=validation_value[1])
 
-    member = member_repo.get_member("b11af449-22c7-43db-b0e4-dbfbbe7fdbd7")
+    member = member_repo.get_first_member()
 
     if member is None:
         raise HTTPException(status_code=404, detail="Member not found")
@@ -132,9 +129,7 @@ def withdraw_transaction(request: dict):
 
     transaction_repo.create_transaction(transaction=new_transaction)
 
-    member_repo.update_member(
-        member_id=member.member_id, current_balance=member_current_balance
-    )
+    member_repo.update_member(current_balance=member_current_balance)
 
     return {
         "current_balance": member_current_balance,
