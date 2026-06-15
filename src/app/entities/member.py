@@ -1,5 +1,5 @@
 import uuid
-from src.app.errors.entity_errors import ParamNotValidated
+from ..errors.entity_errors import ParamNotValidated
 from typing import Tuple
 import re
 

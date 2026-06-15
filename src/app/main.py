@@ -2,9 +2,9 @@ from datetime import datetime
 from uuid import uuid4
 from fastapi import FastAPI, HTTPException
 from mangum import Mangum
-from src.app.entities.transaction import Transaction
-from src.app.enums.transaction_type_enum import TransactionTypeEnum
-from src.app.environments import Environments
+from .entities.transaction import Transaction
+from .enums.transaction_type_enum import TransactionTypeEnum
+from .environments import Environments
 
 app = FastAPI()
 

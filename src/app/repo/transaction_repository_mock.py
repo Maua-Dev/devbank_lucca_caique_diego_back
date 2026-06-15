@@ -1,7 +1,7 @@
 from typing import Optional, List
-from src.app.entities.transaction import Transaction
-from src.app.repo.transaction_repository_interface import ITransactionRepository
-from src.app.enums.transaction_type_enum import TransactionTypeEnum
+from ..entities.transaction import Transaction
+from ..enums.transaction_type_enum import TransactionTypeEnum
+from .transaction_repository_interface import ITransactionRepository
 
 
 class TransactionRepositoryMock(ITransactionRepository):

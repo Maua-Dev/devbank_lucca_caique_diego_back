@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from src.app.entities.member import Member
+from ..entities.member import Member
 
 
 class IMemberRepository(ABC):

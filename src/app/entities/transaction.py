@@ -1,7 +1,7 @@
 from typing import Tuple
 import uuid
-from src.app.errors.entity_errors import ParamNotValidated
-from src.app.enums.transaction_type_enum import TransactionTypeEnum
+from ..errors.entity_errors import ParamNotValidated
+from ..enums.transaction_type_enum import TransactionTypeEnum
 
 
 class Transaction:

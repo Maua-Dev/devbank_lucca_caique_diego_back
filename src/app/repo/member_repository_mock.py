@@ -1,6 +1,6 @@
 from typing import Optional, List
-from src.app.entities.member import Member
-from src.app.repo.member_repository_interface import IMemberRepository
+from ..entities.member import Member
+from .member_repository_interface import IMemberRepository
 
 
 class MemberRepositoryMock(IMemberRepository):

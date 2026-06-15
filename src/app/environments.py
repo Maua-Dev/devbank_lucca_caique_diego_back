@@ -2,12 +2,9 @@
 from enum import Enum
 import os
 
-from src.app.repo.member_repository_interface import IMemberRepository
-from src.app.repo.transaction_repository_interface import ITransactionRepository
-
 from .errors.environment_errors import EnvironmentNotFound
-
 from .repo.member_repository_interface import IMemberRepository
+from .repo.transaction_repository_interface import ITransactionRepository
 
 
 class STAGE(Enum):
